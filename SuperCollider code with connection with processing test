@@ -1,0 +1,74 @@
+s.boot
+s.quit
+s.scope
+
+~net = NetAddr("127.0.0.1",47120);
+~net.sendMsg("/test");
+(fork{loop{
+	~net.sendMsg("/mousex");
+	1.wait;
+}}
+)
+
+(
+
+		SynthDef(\blip,{arg freq = 200,dur = 0.2, amp = 0.1;
+
+
+
+
+
+
+			var sound = SinOsc.ar([freq,freq]);
+			sound = sound*Line.kr(1,0,dur,doneAction:2);
+			Out.ar(0,sound*amp);
+
+		}).add
+
+	)
+(
+OSCFunc.newMatching({arg msg;
+	var freq = msg[1];
+	var amp = msg[2];
+	Synth(\Blimp,[\freq,freq,\amp,amp]);
+},"/Blimp/play")
+)
+
+
+OSCdef(\keyX,{Synth(\blip,[\freq,200,\dur,0.5,\amp,0.3])},"/mousex");
+
+
+
+OSCdef(\keyZ,{Pbind(\instrument, \Blimp, \note, Pseq([60,70,80]), \dur, 1/2)},"/mousex");
+
+(
+SynthDef(\Blimp,{ arg out=0, note=60, amp=0.1, pan=0.0;
+	var freq, env;
+	freq = note.midicps;
+	env = EnvGen.ar(
+		Env([10,2,3,1],[0.11, 0.2, 0.01]),
+		levelScale:amp,
+		doneAction:2
+
+	);
+
+	Out.ar(out,
+		Pan2.ar(Blip.ar(XLine.ar(freq) * env, pan)) //2 channels
+	)
+}).add;
+)
+
+
+a = Synth(\Blimp,[\note, 90])   /// Midi number 90
+
+
+Pbind(\instrument, \Blimp, \note, Pseq([70], inf), \dur, 1/2).play;
+
+Synth(\Blimp,[\freq,60 , \amp,0.1, \dur,0.5])
+
+
+
+	a = Pseq([120,200,100,400],inf).asStream;
+	a.next
+
+NetAddr.localAddr
