@@ -1,6 +1,5 @@
 // A simplified version of the game Bubble Trouble
-// Shoot all the Balls without getting hit by one of them to win
-// Move the Player left and right using 'a' and 'd', shoot a Missile using 'w'
+// Hit the Balls using your mouse while the bubbles create sound.
 
 import netP5.*;
 import oscP5.*;
