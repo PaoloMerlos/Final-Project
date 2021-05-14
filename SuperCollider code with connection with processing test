@@ -1,3 +1,14 @@
+
+// This Project was created by the team Deep Matrix 
+// Which consists of the member 
+//
+// - Eleni Kapona
+// - Paolo Merlos
+// - Nazariy Alshanskiy
+// - Anna Kotzampasaki
+
+
+
 s.boot
 s.quit
 s.scope
@@ -23,20 +34,8 @@ Pbind(\instrument, \Blimp, \note, Pseq([70], inf), \dur, 1/2).play;
 -------------------------------------------------------------------------------------------
 
 
-
 (
-SynthDef(\blip,{arg freq = 200,dur = 0.2, amp = 0.1;
-
-	var sound = SinOsc.ar([freq,freq]);
-	sound = sound*Line.kr(1,0,dur,doneAction:2);
-	Out.ar(0,sound*amp);
-
-}).add
-)
-
-
-(
-SynthDef(\saw,{ arg out=0, note=60, amp=0.1, pan=0.0;
+SynthDef(\saw,{  arg out=0, note=60, amp=0.1, pan=0.0;
 	var freq, env;
 	freq = note.midicps;
 	env = EnvGen.ar(
@@ -78,7 +77,6 @@ SynthDef(\Blimp,{ arg out=0, note=60, amp=0.1, pan=0.0;
 		doneAction:2
 
 );
-
 	Out.ar(out,
 		Pan2.ar(Blip.ar(XLine.ar(freq) * env, pan)) //2 channels
 	)
@@ -104,7 +102,7 @@ Pbind(\instrument, \drums, \note, Pseq([0.3,0.5,0.6,50,10,20,40,15,20,100,10,20,
 
 
 
-//OSC Functions for processing 
+//OSC Functions for processing
 -------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------
 
@@ -113,13 +111,13 @@ Pbind(\instrument, \drums, \note, Pseq([0.3,0.5,0.6,50,10,20,40,15,20,100,10,20,
 OSCFunc.newMatching({arg msg;
 	Pbind(\instrument, \saw, \note, Pseq([40,45,50,34,22,50,30,50,23,25,20,30,43], inf), \dur, 1/4).play;
 },"/Start")
-)
+) //If processing recieves the message on argument msg /Start play this sound
 
 (
 OSCFunc.newMatching({arg msg1;
 	Pbind(\instrument, \drums, \note, Pseq([0.3,0.5,0.6,50,10,20,40,15,20,100,10,20,15,10], inf), \dur, 1/4).play;
 },"/kick")
-)
+) //If processing recieves the message on argument msg /kick play this sound
 
 (
 OSCFunc.newMatching({arg msg0;
@@ -129,6 +127,7 @@ OSCFunc.newMatching({arg msg0;
 	Synth(\Blimp,[\freq,freq,\amp,amp]);
 },"/Blimp/play")
 )
+//If processing recieves the message on argument msg /Blimp/play each time the ball will hit the end of the screen it will play the sound depending on freq, amp and env.
 
 
 
