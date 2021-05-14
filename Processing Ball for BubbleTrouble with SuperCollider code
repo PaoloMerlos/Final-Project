@@ -4,6 +4,7 @@ import oscP5.*;
 
 OscP5 osc;
 NetAddress supercollider;
+color c = color(random(255), random(255), random(255));
 
 class Ball {
 
@@ -33,7 +34,7 @@ class Ball {
 
   // Draw the Ball
   void display() {
-    fill(30, 144, 255); 
+    fill(c,85); 
     stroke(0); 
     ellipse(xPos, yPos, w, w);
   }
