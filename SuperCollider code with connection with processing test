@@ -1,6 +1,5 @@
-
-// This Project was created by the team Deep Matrix 
-// Which consists of the member 
+// This Project was created by the team Deep Matrix
+// Which consists of the member
 //
 // - Eleni Kapona
 // - Paolo Merlos
@@ -16,16 +15,9 @@ s.scope
 ~net = NetAddr("127.0.0.1",47120); // send address and port
 
 
+//To start off we will need to select each SynthDef there is to get the sound in the SynthDef's Section
 
-OSCdef(\keyX,{Synth(\blip,[\freq,200,\dur,0.5,\amp,0.3])},"/mousex");
-
-OSCdef(\keyZ,{Pbind(\instrument, \Blimp, \note, Pseq([60,70,80]), \dur, 1/2)},"/mousex");
-
-Pbind(\instrument, \Blimp, \note, Pseq([70], inf), \dur, 1/2).play;
-
-
-
-
+//Then Activate the OSC Functions for processing
 
 
 
@@ -45,7 +37,7 @@ SynthDef(\saw,{  arg out=0, note=60, amp=0.1, pan=0.0;
 	);
 
 	Out.ar(out,
-	Pan2.ar(Saw.ar(freq) * env, pan) //out 2 channels
+	Pan2.ar(Saw.ar(freq) * env, pan)
 	)
 }).add;
 )
@@ -57,13 +49,13 @@ SynthDef(\drums,{ |freq|
      var env, sig, trigger;
 	 env = Env.perc(level:0.4,releaseTime:0.1).
 	 kr(doneAction: Done.freeSelf); //var perc
-     sig = WhiteNoise.ar * env; ///white noise gen
+     sig = WhiteNoise.ar * env; ///white noise generation
      trigger = Impulse.ar(freq); //sound compress
 
 	 sig = Latch.ar(sig, trigger); //sound compress
 
 
-	Out.ar(0,[sig , sig]) // left and right channels sig
+	Out.ar(0,[sig , sig]) //
 }).add;
 )
 
