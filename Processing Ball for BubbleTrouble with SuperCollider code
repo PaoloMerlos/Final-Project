@@ -2,8 +2,7 @@
 import netP5.*;
 import oscP5.*;
 
-OscP5 osc;
-NetAddress supercollider;
+
 color c = color(random(255), random(255), random(255));
 
 class Ball {
