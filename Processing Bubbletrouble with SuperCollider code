@@ -88,7 +88,7 @@ void setup() {
   frameRate(144);
 
  OscProperties osc_properties = new OscProperties();
-  osc_properties.setListeningPort(47120); // Setting listening port
+  osc_properties.setListeningPort(47120);
   
   osc = new OscP5(this,osc_properties);
   supercollider = new NetAddress("127.0.0.1", 57120); // Listening port on supercollider
@@ -104,6 +104,14 @@ balls.add(new Ball(width/2, 300, 256, 2));
 
 void draw() { 
   background(255); 
+  if (mouseButton == RIGHT) {
+     OscMessage msg = new OscMessage("/Start"); // if message received 
+     osc.send(msg,  supercollider); }
+     if (keyPressed) { if (key == 'x' || key == 'X') {
+      OscMessage msg1 = new OscMessage("/kick"); // if message received 
+     osc.send(msg1,  supercollider);
+     
+     }}
     // Run all Ball objects
   for (int i = 0; i < balls.size(); i++) { 
     if ( i <= ballsCounter)
@@ -113,11 +121,13 @@ void draw() {
       
   }
   }
-}
+  }
 
 
 
-void mousePressed() {
+
+
+void mousePressed() { if (mouseButton == LEFT){
       // If it has been clicked -> delete it
       // Only spawn 2 new Balls if they are above the minimal size 
         for (int i = 0; i < balls.size(); i++) { 
@@ -139,8 +149,4 @@ void mousePressed() {
           }
         }
      }
-
-
-
-
-
+}
