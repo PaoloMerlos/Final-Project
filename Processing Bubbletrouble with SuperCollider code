@@ -68,13 +68,34 @@ void draw() {
 
 
 
+// This Project was created by the team Deep Matrix 
+// Which consists of the member 
+//
+// - Eleni Kapona
+// - Paolo Merlos
+// - Nazariy Alshanskiy
+// - Anna Kotzampasaki
+
+//The way this project works is you interact with the ball and the ball interacts with the environment
+//If you left click the ball, the ball itself splits in half while the ball splits in half the sound changes depending on its size
+//The ball hitting the corners of the screen will trigger sound of the balls hitting the screen
+
+
+//BACKGROUND//
+
+//In order for the background to exist it needs to be added in the folder of the processing itself
+
+
+
+
+
+
+
 import netP5.*;
 import oscP5.*;
 OscP5 osc;
 NetAddress supercollider;
-
 PImage img;
-
 
 
 // Our global variables and objects
@@ -86,16 +107,15 @@ ArrayList<Ball> balls = new ArrayList<Ball>();  // An array with Balls
 
 
 void setup() { 
-  size(1422, 800); 
+  size(1422, 800);
   smooth();
   frameRate(144);
   img = loadImage("image.jpg");
 
- OscProperties osc_properties = new OscProperties();
-  osc_properties.setListeningPort(47120);
-  
-  osc = new OscP5(this,osc_properties);
-  supercollider = new NetAddress("127.0.0.1", 57120); // Listening port on supercollider
+OscProperties osc_properties = new OscProperties();
+osc_properties.setListeningPort(47120);
+osc = new OscP5(this,osc_properties);
+supercollider = new NetAddress("127.0.0.1", 57120); // Listening port on supercollider
 
   // Initialize our variables and objects
 
@@ -107,15 +127,11 @@ balls.add(new Ball(width/2, 300, 256, 2));
 
 
 void draw() { 
-  background(img);
-  if (mouseButton == RIGHT) {
-     OscMessage msg = new OscMessage("/Start"); // if message received 
-     osc.send(msg,  supercollider); }
-     if (keyPressed) { if (key == 'x' || key == 'X') {
-      OscMessage msg1 = new OscMessage("/kick"); // if message received 
-     osc.send(msg1,  supercollider);
+  background(img); 
+  if (mouseButton == RIGHT) { music();  //if right click then void music true
+ }
      
-     }}
+     
     // Run all Ball objects
   for (int i = 0; i < balls.size(); i++) { 
     if ( i <= ballsCounter)
@@ -134,6 +150,8 @@ void draw() {
 void mousePressed() { if (mouseButton == LEFT){
       // If it has been clicked -> delete it
       // Only spawn 2 new Balls if they are above the minimal size 
+       OscMessage msg2 = new OscMessage("/Click");
+       
         for (int i = 0; i < balls.size(); i++) { 
          
           Ball ball = balls.get(i); 
@@ -143,7 +161,7 @@ void mousePressed() { if (mouseButton == LEFT){
             balls.add(new Ball(ball.xPos, ball.yPos, ball.w/3*2, 2));
             balls.add(new Ball(ball.xPos, ball.yPos, ball.w/3*2, -2));
             balls.remove(i); // delete ball   
-              
+               osc.send(msg2,  supercollider);
        
           
             
@@ -154,3 +172,7 @@ void mousePressed() { if (mouseButton == LEFT){
         }
      }
 }
+
+
+void music(){     OscMessage msg = new OscMessage("/Start"); // if message received 
+     osc.send(msg,  supercollider);} //play osc /start sound
