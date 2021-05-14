@@ -81,3 +81,108 @@ class Ball {
 }
 }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//New Code--------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+// A Ball that falls by simulating some degree gravity
+import netP5.*;
+import oscP5.*;
+
+
+color c = color(random(255), random(255), random(255));
+
+class Ball {
+
+  float xPos, yPos;       // x and y location of the ball 
+  float w;          // width of the ball
+  float speedX, speedY;   // x and yspeed of the ball
+  float gravity = 0.1;    // gravity variable
+  boolean MouseTrigger;    // whether the ball has been clicked by the mouse
+
+  // Ball constuctor with 4 parameters:
+  // the x location, y location, width and horizontal speed
+  Ball(float tempX, float tempY, float tempW, float tempSpeedX) {
+    xPos = tempX;
+    yPos = tempY;
+    w = tempW;
+    speedY = -5;
+    speedX = tempSpeedX;
+    MouseTrigger = false;
+  }
+
+  // Run this object
+  void run() {
+    display();
+    update();
+    mousePressed();
+  }
+
+  // Draw the Ball
+  void display() {
+    fill(c,85); 
+    stroke(0); 
+    ellipse(xPos, yPos, w, w);
+  }
+
+  void update() {
+    // Add speedX and speedY to location
+    yPos = yPos + speedY;
+    xPos = xPos + speedX;
+    // Add gravity to speedY
+    speedY = speedY + gravity; 
+
+    // If the ball reaches the bottom or one of the sides
+    // Reverse speedY or speedX
+    float freq = xPos;
+        float amp = w/2;
+        float env = yPos;
+          OscMessage msg = new OscMessage("/Blimp/play"); // if message received /mouseZ
+
+    if (env > height - amp) { 
+      speedY = speedY * -0.95;
+      env = height - amp;
+    }
+    if (freq > width - amp || freq < amp) {
+
+      speedX = speedX * -1; 
+          msg.add(freq*2);
+             msg.add(amp/8);
+      osc.send(msg,  supercollider);
+               
+    }
+    }
+  
+  
+
+  // Check whether the Ball been hit by a Missile
+  // (The collision detection is not very accurate, 
+  // but it suffices for the purposes of this game)
+
+    //w = width of the ball
+ //xPos, yPos;   x and y location of the ball
+ // find mouseX and mouseY and if mouseButton Left clicks ball than MouseTrigger becomes true.
+ void mousePressed() {
+    if (mouseButton == LEFT && mouseX>xPos-w/2 && mouseX<xPos+w/2 && mouseY<yPos+w/2 && mouseY>yPos-w/2) { 
+      MouseTrigger = true;
+      
+}
+}
+}
