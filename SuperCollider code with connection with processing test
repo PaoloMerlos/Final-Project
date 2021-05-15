@@ -76,6 +76,16 @@ SynthDef(\Bass2,{ arg out=0, note=70, amp=0.1, pan=0.0;
 }).add;
 )
 
+(
+SynthDef(\Bass3, {arg freq = 50;
+	var amp = 2; var sig;
+	sig = SinOsc.ar(freq) * Line.kr(0.2,0,2,doneAction:2)*amp!2;
+	Out.ar(0,[sig , sig])
+}).add
+)
+
+Synth(\Bass3, [\freq, 35]);
+
 
 (
 SynthDef(\High,{ arg out=0, note=60, amp=0.02, pan=0.0;
