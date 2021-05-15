@@ -91,6 +91,8 @@ void draw() {
 
 
 
+
+
 import netP5.*;
 import oscP5.*;
 OscP5 osc;
@@ -100,7 +102,8 @@ PImage img;
 
 // Our global variables and objects
 int ballsCounter= 10; // Keep track of the amount of Balls in game
-int minimumSize = 20;    // Keep track of the amount of Balls in game 
+int minimumSize = 20;
+int limit = 0;// Keep track of the amount of Balls in game 
    // The minimal size of a Ball
 ArrayList<Ball> balls = new ArrayList<Ball>();  // An array with Balls
 
@@ -128,8 +131,7 @@ balls.add(new Ball(width/2, 300, 256, 2));
 
 void draw() { 
   background(img); 
-  if (mouseButton == RIGHT) { music();  //if right click then void music true
- }
+
      
      
     // Run all Ball objects
@@ -141,13 +143,19 @@ void draw() {
       
   }
   }
-  }
+  
+    if (mouseButton == RIGHT) { ;  //if right click then void music true
+ limit = limit + 1;
+ if (limit == 1){
+music();
+ }
+}
+}
 
 
 
 
-
-void mousePressed() { if (mouseButton == LEFT){
+void mousePressed() { if (mouseButton == LEFT){ 
       // If it has been clicked -> delete it
       // Only spawn 2 new Balls if they are above the minimal size 
        OscMessage msg2 = new OscMessage("/Click");
