@@ -13,9 +13,16 @@ s.quit
 s.scope
 
 ~net = NetAddr("127.0.0.1",47120); // send address and port
+//To send messages internally 127.0.0.1 loopback IP
 
 
-//To start off we will need to select each SynthDef there is to get the sound in the SynthDef's Section
+//Instructions
+
+//boot the server
+
+//enable to send messages in internally
+
+//Select each SynthDef there is to get the sound in the SynthDef's Section
 
 //Then Activate the OSC Functions for processing
 
@@ -171,6 +178,9 @@ Pbind(\instrument, \Snare, \freq, Pseq([200,100,5,50,100,200,250,100], inf), \du
 -------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------
 
+//create a new OSCFunc will perform pattern matching on incoming OSC messages to see if their address patterns match this object's path
+//Sends PBind's into processing depending of what messages receives.
+
 
 (
 OSCFunc.newMatching({arg msg;
@@ -204,12 +214,16 @@ OSCFunc.newMatching({arg msg0;
 	Synth(\Wall,[\amp,amp,\freq,70]);
 },"/Wall"))
 
+//var amp to be controlled with something else in processing
+//same with frequency 
+
 (
 OSCFunc.newMatching({arg msg2;
 	Synth(\Click,\note);
 },"/Click"))
 
 //If processing recieves the message on argument msg /Blimp/play each time the ball will hit the end of the screen it will play the sound depending on freq, amp and env.
+//same with other messages /Click, /Start, /Wall if they get received by supercollider from processing they will play.
 
 
 
