@@ -145,9 +145,9 @@ void draw() {
   }
   
     if (mouseButton == RIGHT) { ;  //if right click then void music true
- limit = limit + 1;
- if (limit == 1){
-music();
+ limit = limit + 1; //and add to the limit +1 
+ if (limit == 1){  //if the limit ==1 play music
+music();   //if the limit is 0 the music won't play if its above 1 it won't play again
  }
 }
 }
@@ -158,7 +158,7 @@ music();
 void mousePressed() { if (mouseButton == LEFT){ 
       // If it has been clicked -> delete it
       // Only spawn 2 new Balls if they are above the minimal size 
-       OscMessage msg2 = new OscMessage("/Click");
+       OscMessage msg2 = new OscMessage("/Click");  //if mouseButton left on the ball play the sound /Click 
        
         for (int i = 0; i < balls.size(); i++) { 
          
